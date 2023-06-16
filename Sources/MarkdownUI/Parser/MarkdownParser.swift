@@ -9,15 +9,21 @@ extension Array where Element == BlockNode {
     self.init(blocks ?? .init())
   }
 
-  func renderMarkdown() -> String {
+  func renderMarkdown(option: RenderOptions) -> String {
     UnsafeNode.makeDocument(self) { document in
-      String(cString: cmark_render_commonmark(document, CMARK_OPT_DEFAULT, 0))
+      String(cString: cmark_render_commonmark(document, option.rawValue, 0))
     } ?? ""
   }
 
-  func renderPlainText() -> String {
+  func renderPlainText(option: RenderOptions) -> String {
     UnsafeNode.makeDocument(self) { document in
-      String(cString: cmark_render_plaintext(document, CMARK_OPT_DEFAULT, 0))
+      String(cString: cmark_render_plaintext(document, option.rawValue, 0))
+    } ?? ""
+  }
+
+  func renderHTML(option: RenderOptions) -> String {
+    UnsafeNode.makeDocument(self) { document in
+        String(cString: cmark_render_html(document, option.rawValue, .none))
     } ?? ""
   }
 }
