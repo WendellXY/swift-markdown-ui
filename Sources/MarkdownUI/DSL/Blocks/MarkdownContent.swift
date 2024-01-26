@@ -114,4 +114,9 @@ public struct MarkdownContent: Equatable, MarkdownContentProtocol {
     let result = self.blocks.renderHTML(option: option)
     return result.hasSuffix("\n") ? String(result.dropLast()) : result
   }
+
+  /// Renders this Markdown content value as HTML code.
+  public func renderHTML() -> String {
+    self.blocks.renderHTML()
+  }
 }
